@@ -10,11 +10,14 @@
 @freestanding(expression)
 public macro stringify<T>(_ value: T) -> (T, String) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "StringifyMacro")
 
-@attached(extension, conformances: Decodable, names: arbitrary)
-public macro CodableIgnoreInitializedProperties_Extension() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnoreInitializedProperties_Extension")
+@attached(member, names: arbitrary)
+@attached(extension, conformances: Codable, names: arbitrary)
+@attached(memberAttribute)
+public macro CodableIgnoreInitializedProperties() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnoreInitializedProperties")
 
 @attached(member, names: arbitrary)
-public macro CodableIgnoreInitializedProperties_Member() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnoreInitializedProperties_Member")
+@attached(extension, conformances: Codable, names: arbitrary)
+public macro Codable() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "Codable")
 
 @attached(peer)
 public macro CodableIgnored() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnored")

@@ -12,8 +12,8 @@ import SwiftSyntaxMacros
 struct SwiftMacrosAndMePlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         StringifyMacro.self,
-        CodableIgnoreInitializedProperties_Extension.self,
-        CodableIgnoreInitializedProperties_Member.self,
+        CodableIgnoreInitializedProperties.self,
+        Codable.self,
         CodableIgnored.self,
     ]
 }
