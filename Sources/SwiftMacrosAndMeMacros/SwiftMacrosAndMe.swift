@@ -20,4 +20,17 @@ struct SwiftMacrosAndMePlugin: CompilerPlugin {
 
 enum MacroExpansionError: Error {
     case unsupportedDeclaration
+    case codingKeysAlreadyExist
+    
+    var localizedDescription: String {
+        switch self {
+        case .unsupportedDeclaration:
+            return "Unsupported declaration for macro expansion."
+        case .codingKeysAlreadyExist:
+            return "Coding keys already exist."
+        }
+    }
+}
+
+extension String: @retroactive Error {
 }

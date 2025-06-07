@@ -22,7 +22,7 @@ public struct CodableIgnoreInitializedProperties_Member: MemberMacro {
             decl.name.text == "CodingKeys"
         }
         guard !hasCodingKeys else {
-            return []
+            throw "Coding keys already exist."
         }
 
         let properties = structDecl.memberBlock.members.compactMap { $0.decl.as(VariableDeclSyntax.self) }
