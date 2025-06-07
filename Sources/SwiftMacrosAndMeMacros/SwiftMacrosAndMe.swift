@@ -14,6 +14,7 @@ struct SwiftMacrosAndMePlugin: CompilerPlugin {
         StringifyMacro.self,
         CodableIgnoreInitializedProperties_Extension.self,
         CodableIgnoreInitializedProperties_Member.self,
+        CodableIgnored.self,
     ]
 }
 

@@ -10,6 +10,7 @@ print("The value \(result) was produced by the code \"\(code)\"")
 
 @CodableIgnoreInitializedProperties_Member
 struct Foo: Codable, Identifiable {
-    let id = UUID()
+    @CodableIgnored var id = UUID()
     var bar: Int
+    let baz: String
 }

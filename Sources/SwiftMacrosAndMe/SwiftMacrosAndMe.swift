@@ -15,3 +15,6 @@ public macro CodableIgnoreInitializedProperties_Extension() = #externalMacro(mod
 
 @attached(member, names: arbitrary)
 public macro CodableIgnoreInitializedProperties_Member() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnoreInitializedProperties_Member")
+
+@attached(peer)
+public macro CodableIgnored() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnored")

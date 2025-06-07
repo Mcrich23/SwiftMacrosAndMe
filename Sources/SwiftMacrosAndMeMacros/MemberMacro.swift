@@ -27,8 +27,18 @@ public struct CodableIgnoreInitializedProperties_Member: MemberMacro {
 
         let properties = structDecl.memberBlock.members.compactMap { $0.decl.as(VariableDeclSyntax.self) }
         
-        let enumCases: [String] = properties.compactMap { decl in
-            guard let name = decl.bindings.first?.pattern.as(IdentifierPatternSyntax.self)?.identifier.text else {
+        let nonIgnoredProperties = properties.filter({ property in
+            !property.attributes.contains { attribute in
+                guard let syntax = attribute.as(AttributeSyntax.self) else { return true }
+                
+                return syntax.attributeName.trimmedDescription == "CodableIgnored"
+            }
+        })
+        
+        let enumCases: [String] = nonIgnoredProperties.compactMap { decl in
+            guard let name = decl.bindings.first?.pattern.as(IdentifierPatternSyntax.self)?.identifier.text
+                  
+            else {
                 return nil
             }
             
