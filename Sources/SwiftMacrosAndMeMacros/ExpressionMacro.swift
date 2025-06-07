@@ -24,10 +24,3 @@ public struct StringifyMacro: ExpressionMacro {
         return "(\(argument), \(literal: argument.description))"
     }
 }
-
-@main
-struct SwiftMacrosAndMePlugin: CompilerPlugin {
-    let providingMacros: [Macro.Type] = [
-        StringifyMacro.self,
-    ]
-}
