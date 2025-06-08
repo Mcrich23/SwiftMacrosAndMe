@@ -26,6 +26,21 @@ struct Bar: Identifiable {
 @SecureStorage("test") var secureTest: String?
 
 @AddSynchronous
-func asyncFunction(test: String) async {
-    print("Hello, World!")
+func asyncFunction(test: String) async throws -> String {
+    return test
 }
+
+// Avoid quitting before async finishes
+let semaphore = DispatchSemaphore(value: 0)
+
+asyncFunction(test: "Hello World!") { value, error in
+    if let value {
+        print("Value: \(value)")
+    }
+    if let error {
+        print("Error: \(error)")
+    }
+    semaphore.signal()
+}
+
+semaphore.wait()
