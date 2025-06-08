@@ -16,6 +16,7 @@ struct SwiftMacrosAndMePlugin: CompilerPlugin {
         Codable.self,
         CodableIgnored.self,
         SecureStorage.self,
+        AddSynchronous.self,
     ]
 }
 

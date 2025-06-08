@@ -24,3 +24,8 @@ struct Bar: Identifiable {
 }
 
 @SecureStorage("test") var secureTest: String?
+
+@AddSynchronous
+func asyncFunction(test: String) async {
+    print("Hello, World!")
+}

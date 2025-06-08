@@ -9,8 +9,25 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 
-public struct CodableIgnored: PeerMacro {
+public struct AddSynchronous: PeerMacro {
     public static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
-        []
+        guard let syntax = declaration.as(FunctionDeclSyntax.self) else {
+            throw MacroExpansionError.unsupportedDeclaration
+        }
+        
+        let functionName = syntax.name.text
+        let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable () -> Void)? = nil"]
+        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.secondName ?? $0.firstName): \($0.secondName ?? $0.firstName)" })
+        
+        let functionBody = """
+            Task {
+                await \(functionName)(\(passthroughParameters.joined(separator: ",")))
+                completion?()
+            }
+            """
+        
+        let function = try DeclSyntax(validating: .init(stringLiteral: "func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        
+        return [function]
     }
 }

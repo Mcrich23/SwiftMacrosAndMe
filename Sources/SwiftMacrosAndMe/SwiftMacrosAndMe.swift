@@ -24,5 +24,8 @@ public macro Codable() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: 
 @attached(peer)
 public macro CodableIgnored() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnored")
 
+@attached(peer, names: overloaded)
+public macro AddSynchronous() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "AddSynchronous")
+
 @attached(accessor)
 public macro SecureStorage(_ key: String) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
