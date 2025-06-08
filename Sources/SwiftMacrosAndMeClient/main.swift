@@ -27,6 +27,7 @@ struct Bar: Identifiable {
 
 @AddSynchronous
 func asyncFunction(test: String) async throws -> String {
+    try await Task.sleep(nanoseconds: 3_000_000_000)
     return test
 }
 
