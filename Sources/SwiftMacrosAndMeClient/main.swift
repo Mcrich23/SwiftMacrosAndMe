@@ -16,7 +16,11 @@ struct Foo: Identifiable {
     let baz: String
 }
 
-let fooConformsToCodable = (Foo(bar: 1, baz: "2") as? Codable) == nil ? false : true
-print(fooConformsToCodable)
+@Codable
+struct Bar: Identifiable {
+    @CodableIgnored let id = UUID()
+    var bar: Int
+    let baz: String
+}
 
 @SecureStorage("test") var secureTest: String?
