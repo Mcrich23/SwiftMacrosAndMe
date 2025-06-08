@@ -20,6 +20,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "601.0.0"),
+        .package(url: "https://github.com/evgenyneu/keychain-swift.git", from: "24.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -29,12 +30,16 @@ let package = Package(
             name: "SwiftMacrosAndMeMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+                .product(name: "KeychainSwift", package: "keychain-swift"),
             ]
         ),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
-        .target(name: "SwiftMacrosAndMe", dependencies: ["SwiftMacrosAndMeMacros"]),
+        .target(name: "SwiftMacrosAndMe", dependencies: [
+            "SwiftMacrosAndMeMacros",
+            .product(name: "KeychainSwift", package: "keychain-swift"),
+        ]),
 
         // A client of the library, which is able to use the macro in its own code.
         .executableTarget(name: "SwiftMacrosAndMeClient", dependencies: ["SwiftMacrosAndMe"]),

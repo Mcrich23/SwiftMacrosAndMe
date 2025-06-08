@@ -1,5 +1,6 @@
 import SwiftMacrosAndMe
 import Foundation
+import KeychainSwift
 
 let a = 17
 let b = 25
@@ -17,3 +18,5 @@ struct Foo: Identifiable {
 
 let fooConformsToCodable = (Foo(bar: 1, baz: "2") as? Codable) == nil ? false : true
 print(fooConformsToCodable)
+
+@SecureStorage("test") var secureTest: String?

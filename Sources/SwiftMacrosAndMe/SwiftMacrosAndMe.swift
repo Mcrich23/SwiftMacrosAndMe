@@ -1,6 +1,8 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
+import KeychainSwift
+
 /// A macro that produces both a value and a string containing the
 /// source code that generated the value. For example,
 ///
@@ -21,3 +23,6 @@ public macro Codable() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: 
 
 @attached(peer)
 public macro CodableIgnored() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnored")
+
+@attached(accessor)
+public macro SecureStorage(_ key: String) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
