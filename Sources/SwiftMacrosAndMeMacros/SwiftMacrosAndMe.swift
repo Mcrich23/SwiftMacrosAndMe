@@ -12,6 +12,7 @@ import SwiftSyntaxMacros
 struct SwiftMacrosAndMePlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         URLMacro.self,
+        Base64ObfuscationMacro.self,
         CodableIgnoreInitializedProperties.self,
         Codable.self,
         CodableIgnored.self,

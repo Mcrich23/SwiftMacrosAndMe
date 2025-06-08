@@ -14,6 +14,15 @@ import Foundation
 @freestanding(expression)
 public macro URL(_ stringLiteral: String) -> URL = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "URLMacro")
 
+/// A macro that produces code that has a function that decodes a base64 string
+///
+///     #base64Encoded("food")
+///
+/// produces an array converted to string: `PrivateObfuscationMacro.base64Decoded("dGVzdA==")`.
+@freestanding(expression)
+public macro base64Encoded(_ value: String) -> String? = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "Base64ObfuscationMacro")
+
+
 /// Applies `@Codable` to an object and `@CodableIgnored` to all inline initialized properties.
 @attached(member, names: arbitrary)
 @attached(extension, conformances: Codable, names: arbitrary)
@@ -36,3 +45,4 @@ public macro AddSynchronous() = #externalMacro(module: "SwiftMacrosAndMeMacros",
 /// Securely save and read from the Keychain without all of the boiler plate each time.
 @attached(accessor)
 public macro SecureStorage(_ key: String) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
+

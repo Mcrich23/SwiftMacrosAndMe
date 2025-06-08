@@ -47,3 +47,7 @@ semaphore.wait()
 
 // MARK: URL Macro
 let compileTimeSafeURL = #URL("https://mcrich23.com")
+
+// MARK: Base64 Encoded Macro
+let secretMessage = #base64Encoded("Hello World!")!
+print(secretMessage)
