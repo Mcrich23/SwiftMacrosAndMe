@@ -45,3 +45,5 @@ asyncFunction(test: "Hello World!") { value, error in
 }
 
 semaphore.wait()
+
+let compileTimeSafeURL = #URL("https://mcrich23.com")
