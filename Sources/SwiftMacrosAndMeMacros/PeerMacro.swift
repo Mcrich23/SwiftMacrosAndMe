@@ -14,6 +14,23 @@ public struct AddSynchronous: PeerMacro {
         guard let syntax = declaration.as(FunctionDeclSyntax.self) else {
             throw MacroExpansionError.unsupportedDeclaration
         }
+        let returnType: String = "\(syntax.signature.returnClause?.trimmedDescription.dropFirst(3) ?? "Void")"
+        let isThrowing = syntax.signature.effectSpecifiers?.throwsClause != nil
+        
+        if returnType == "Void" {
+            switch isThrowing {
+            case false: return try handleAsyncVoid(of: node, providingPeersOf: declaration, in: context)
+            case true: return try handleAsyncThrowsVoid(of: node, providingPeersOf: declaration, in: context)
+            }
+        } else {
+            return try handleAsyncVoid(of: node, providingPeersOf: declaration, in: context)
+        }
+    }
+    
+    private static func handleAsyncVoid(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
+        guard let syntax = declaration.as(FunctionDeclSyntax.self) else {
+            throw MacroExpansionError.unsupportedDeclaration
+        }
         
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable () -> Void)? = nil"]
@@ -23,6 +40,31 @@ public struct AddSynchronous: PeerMacro {
             Task {
                 await \(functionName)(\(passthroughParameters.joined(separator: ",")))
                 completion?()
+            }
+            """
+        
+        let function = try DeclSyntax(validating: .init(stringLiteral: "func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        
+        return [function]
+    }
+    
+    private static func handleAsyncThrowsVoid(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
+        guard let syntax = declaration.as(FunctionDeclSyntax.self) else {
+            throw MacroExpansionError.unsupportedDeclaration
+        }
+        
+        let functionName = syntax.name.text
+        let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (Error?) -> Void)? = nil"]
+        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.secondName ?? $0.firstName): \($0.secondName ?? $0.firstName)" })
+        
+        let functionBody = """
+            Task {
+                do {
+                    try await \(functionName)(\(passthroughParameters.joined(separator: ",")))
+                    completion?(nil)
+                } catch {
+                    completion?(error)
+                }
             }
             """
         
