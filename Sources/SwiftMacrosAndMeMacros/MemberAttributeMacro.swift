@@ -9,6 +9,7 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 
+/// Applies `@Codable` to an object and `@CodableIgnored` to all inline initialized properties.
 public struct CodableIgnoreInitializedProperties: MemberAttributeMacro, MemberMacro, ExtensionMacro {
     
     /// ExtensionMacro Expansion

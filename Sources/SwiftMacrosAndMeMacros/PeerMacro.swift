@@ -9,6 +9,7 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 
+/// Make any async/await function also available for a synchronous context with just one line!
 public struct AddSynchronous: PeerMacro {
     public static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
         guard let syntax = declaration.as(FunctionDeclSyntax.self) else {

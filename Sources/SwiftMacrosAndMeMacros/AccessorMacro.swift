@@ -10,6 +10,7 @@ import SwiftSyntax
 import SwiftSyntaxMacros
 import KeychainSwift
 
+/// Securely save and read from the Keychain without all of the boiler plate each time.
 public struct SecureStorage: AccessorMacro {
     public static func expansion(of node: AttributeSyntax, providingAccessorsOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [AccessorDeclSyntax] {
         guard let key = node.arguments?.as(LabeledExprListSyntax.self)?.first?.expression else {
@@ -22,7 +23,7 @@ public struct SecureStorage: AccessorMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
-        var getFunctionName = switch type {
+        let getFunctionName = switch type {
         case "String": "get"
         case "Bool": "getBool"
         case "Data": "getData"

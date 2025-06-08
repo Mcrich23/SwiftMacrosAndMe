@@ -9,6 +9,7 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 
+/// Conforms an object to `Codable` and synthesizes `CodingKeys` for it.
 public struct Codable: MemberMacro, ExtensionMacro {
     /// ExtensionMacro Expansion
     public static func expansion(of node: AttributeSyntax, attachedTo declaration: some DeclGroupSyntax, providingExtensionsOf type: some TypeSyntaxProtocol, conformingTo protocols: [TypeSyntax], in context: some MacroExpansionContext) throws -> [ExtensionDeclSyntax] {
@@ -71,6 +72,7 @@ public struct Codable: MemberMacro, ExtensionMacro {
     }
 }
 
+/// Tells `@Codable` to exclude a property from the `CodingKeys`.
 public struct CodableIgnored: PeerMacro {
     public static func expansion(of node: AttributeSyntax, providingPeersOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [DeclSyntax] {
         []
