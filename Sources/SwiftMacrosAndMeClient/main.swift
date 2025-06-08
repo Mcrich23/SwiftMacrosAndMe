@@ -2,13 +2,7 @@ import SwiftMacrosAndMe
 import Foundation
 import KeychainSwift
 
-let a = 17
-let b = 25
-
-let (result, code) = #stringify(a + b)
-
-print("The value \(result) was produced by the code \"\(code)\"")
-
+// MARK: Test Codable Macros
 @CodableIgnoreInitializedProperties
 struct Foo: Identifiable {
     let id = UUID()
@@ -23,7 +17,12 @@ struct Bar: Identifiable {
     let baz: String
 }
 
+// MARK: SecureStorage Macro
+
 @SecureStorage("test") var secureTest: String?
+
+
+// MARK: Test AddSynchronous Macro
 
 @AddSynchronous
 func asyncFunction(test: String) async throws -> String {
@@ -46,4 +45,5 @@ asyncFunction(test: "Hello World!") { value, error in
 
 semaphore.wait()
 
+// MARK: URL Macro
 let compileTimeSafeURL = #URL("https://mcrich23.com")
