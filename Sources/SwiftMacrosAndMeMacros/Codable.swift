@@ -8,19 +8,30 @@
 import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
+import SwiftDiagnostics
 
 /// Conforms an object to `Codable` and synthesizes `CodingKeys` for it.
 public struct Codable: MemberMacro, MemberAttributeMacro, ExtensionMacro {
+    static let messageId = "Codable"
+    
     /// MemberAttributeMacro Expansion
     public static func expansion(of node: SwiftSyntax.AttributeSyntax, attachedTo declaration: some SwiftSyntax.DeclGroupSyntax, providingAttributesFor member: some SwiftSyntax.DeclSyntaxProtocol, in context: some SwiftSyntaxMacros.MacroExpansionContext) throws -> [SwiftSyntax.AttributeSyntax] {
         guard let property = member.as (VariableDeclSyntax.self),
-              !(property.bindings.first?.initializer == nil && property.bindings.first?.accessorBlock == nil)
+              !(property.bindings.first?.initializer == nil && property.bindings.first?.accessorBlock == nil),
+              !property.attributes.contains(where: { $0.trimmedDescription == "@CodableIgnored" }),
+              property.bindingSpecifier.trimmedDescription == "let"
         else {
             return []
         }
         
-        let message = WarningMessage(message: "Immutable property will not be decoded because it is declared with an initial value which cannot be overwritten.", id: "Codable")
-        context.diagnose(.init(node: Syntax(property), message: message))
+        let oldNode = property.bindingSpecifier
+        let newNode = DeclSyntax(stringLiteral: "@CodableIgnored \(oldNode.trimmedDescription)")
+        
+        let diagnosticMessage = WarningMessage(message: "Immutable property will not be decoded because it is declared with an initial value which cannot be overwritten", id: messageId)
+        let fixItMessage = FixItMessageStruct(message: "Ignore the property when encoding/decoding", id: messageId)
+        
+        let fixIt = FixIt.replace(message: fixItMessage, oldNode: oldNode, newNode: newNode)
+        context.diagnose(.init(node: Syntax(property), message: diagnosticMessage, fixIt: fixIt))
         
         return [
             //.init(stringLiteral: "#warning(\"Immutable property will not be decoded because it is declared with an initial value which cannot be overwritten.\")")

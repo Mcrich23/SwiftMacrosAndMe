@@ -44,8 +44,21 @@ struct WarningMessage: DiagnosticMessage {
     let message: String
     let id: String
     let severity: DiagnosticSeverity = .warning
+    
+    var diagnosticID: MessageID {
+        .init(domain: "SwiftMacrosAndMe", id: id)
+    }
+    
+    var fixItMessage: FixItMessageStruct {
+        FixItMessageStruct(message: message, id: id)
+    }
+}
 
-  var diagnosticID: MessageID {
-    .init(domain: "SwiftMacrosAndMe", id: id)
-  }
+struct FixItMessageStruct: FixItMessage {
+    var message: String
+    let id: String
+    
+    var fixItID: MessageID {
+        .init(domain: "SwiftMacrosAndMe", id: id)
+    }
 }
