@@ -71,6 +71,8 @@ Compile-time checked URL literal. Fails to compile if the string is not a valid 
 let url = #URL("https://example.com")
 ```
 
+Credit: [Antoine van der Lee](https://www.avanderlee.com/swift/macros/)
+
 ### 7. `#base64Encoded`
 Obfuscate a string at compile time by encoding it to base64.
 
