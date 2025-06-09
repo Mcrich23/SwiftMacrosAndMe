@@ -25,8 +25,6 @@ public macro base64Encoded(_ value: String) -> String? = #externalMacro(module: 
 
 /// Applies `@Codable` to an object and `@CodableIgnored` to all inline initialized properties.
 @attached(member, names: arbitrary)
-@attached(extension, conformances: Codable, names: arbitrary)
-@attached(memberAttribute)
 public macro CodableIgnoreInitializedProperties() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "CodableIgnoreInitializedProperties")
 
 /// Conforms an object to `Codable` and synthesizes `CodingKeys` for it.
