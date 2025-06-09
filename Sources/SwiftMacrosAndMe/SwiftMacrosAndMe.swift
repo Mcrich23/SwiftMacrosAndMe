@@ -29,6 +29,7 @@ public macro CodableIgnoreInitializedProperties() = #externalMacro(module: "Swif
 
 /// Conforms an object to `Codable` and synthesizes `CodingKeys` for it.
 @attached(member, names: arbitrary)
+@attached(memberAttribute)
 @attached(extension, conformances: Codable, names: arbitrary)
 public macro Codable() = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "Codable")
 

@@ -10,7 +10,23 @@ import SwiftSyntax
 import SwiftSyntaxMacros
 
 /// Conforms an object to `Codable` and synthesizes `CodingKeys` for it.
-public struct Codable: MemberMacro, ExtensionMacro {
+public struct Codable: MemberMacro, MemberAttributeMacro, ExtensionMacro {
+    /// MemberAttributeMacro Expansion
+    public static func expansion(of node: SwiftSyntax.AttributeSyntax, attachedTo declaration: some SwiftSyntax.DeclGroupSyntax, providingAttributesFor member: some SwiftSyntax.DeclSyntaxProtocol, in context: some SwiftSyntaxMacros.MacroExpansionContext) throws -> [SwiftSyntax.AttributeSyntax] {
+        guard let property = member.as (VariableDeclSyntax.self),
+              !(property.bindings.first?.initializer == nil && property.bindings.first?.accessorBlock == nil)
+        else {
+            return []
+        }
+        
+        let message = WarningMessage(message: "Immutable property will not be decoded because it is declared with an initial value which cannot be overwritten.", id: "Codable")
+        context.diagnose(.init(node: Syntax(property), message: message))
+        
+        return [
+            //.init(stringLiteral: "#warning(\"Immutable property will not be decoded because it is declared with an initial value which cannot be overwritten.\")")
+        ]
+    }
+    
     /// ExtensionMacro Expansion
     public static func expansion(of node: AttributeSyntax, attachedTo declaration: some DeclGroupSyntax, providingExtensionsOf type: some TypeSyntaxProtocol, conformingTo protocols: [TypeSyntax], in context: some MacroExpansionContext) throws -> [ExtensionDeclSyntax] {
         let protocols = protocols.map({ $0.trimmedDescription })
@@ -71,5 +87,3 @@ public struct Codable: MemberMacro, ExtensionMacro {
         return [.init(stringLiteral: codingKeysEnum)]
     }
 }
-
-

@@ -3,16 +3,16 @@ import Foundation
 import KeychainSwift
 
 // MARK: Test Codable Macros
-@CodableIgnoreInitializedProperties
-struct Foo: Identifiable {
+@Codable
+struct Foo: Codable, Identifiable {
     let id = UUID()
     var bar: Int
     let baz: String
 }
 
-@Codable
+@CodableIgnoreInitializedProperties
 struct Bar: Identifiable {
-    @CodableIgnored let id = UUID()
+    let id = UUID()
     var bar: Int
     let baz: String
 }

@@ -7,6 +7,7 @@
 
 import SwiftCompilerPlugin
 import SwiftSyntaxMacros
+import SwiftDiagnostics
 
 @main
 struct SwiftMacrosAndMePlugin: CompilerPlugin {
@@ -36,4 +37,15 @@ enum MacroExpansionError: Error {
 }
 
 extension String: @retroactive Error {
+}
+
+/// Diagnostic message for warnings
+struct WarningMessage: DiagnosticMessage {
+    let message: String
+    let id: String
+    let severity: DiagnosticSeverity = .warning
+
+  var diagnosticID: MessageID {
+    .init(domain: "SwiftMacrosAndMe", id: id)
+  }
 }
