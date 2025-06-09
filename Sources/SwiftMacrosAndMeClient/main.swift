@@ -10,9 +10,9 @@ struct Foo: Identifiable {
     let baz: String
 }
 
-@Codable
-struct Bar: Identifiable {
-    @CodableIgnored let id = UUID()
+//@Codable
+struct Bar: Codable, Identifiable {
+    let id = UUID()
     var bar: Int
     let baz: String
 }

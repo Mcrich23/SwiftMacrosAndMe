@@ -33,13 +33,13 @@ public struct SecureStorage: AccessorMacro {
         return [
             """
             get {
-                let keychain = KeychainSwift()
+                let keychain = KeychainSwift.shared
                 return keychain.\(raw: getFunctionName)(\(key))
             }
             """,
             """
             set {
-                let keychain = KeychainSwift()
+                let keychain = KeychainSwift.shared
                 guard let newValue else {
                     keychain.delete(\(key))
                     return
