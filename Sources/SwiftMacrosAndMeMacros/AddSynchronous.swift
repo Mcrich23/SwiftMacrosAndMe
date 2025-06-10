@@ -40,6 +40,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
+        let functionModifiers = syntax.modifiers.description
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (\(returnType)) -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
@@ -51,7 +52,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(functionModifiers) func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
@@ -64,6 +65,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
+        let functionModifiers = syntax.modifiers.description
         let functionName = syntax.name.text
         
         let completion: String = if returnType.contains("?") {
@@ -86,7 +88,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(functionModifiers) func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
@@ -97,6 +99,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
+        let functionModifiers = syntax.modifiers.description
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable () -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
@@ -108,7 +111,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(functionModifiers) func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
@@ -118,6 +121,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
+        let functionModifiers = syntax.modifiers.description
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (Error?) -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
@@ -133,7 +137,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(functionModifiers) func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
