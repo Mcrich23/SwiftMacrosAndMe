@@ -42,7 +42,7 @@ public struct AddSynchronous: PeerMacro {
         
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (\(returnType)) -> Void)? = nil"]
-        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.secondName ?? $0.firstName): \($0.secondName ?? $0.firstName)" })
+        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
         
         let functionBody = """
             Task {
@@ -65,8 +65,15 @@ public struct AddSynchronous: PeerMacro {
         }
         
         let functionName = syntax.name.text
-        let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (\(returnType)?, Error?) -> Void)? = nil"]
-        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.secondName ?? $0.firstName): \($0.secondName ?? $0.firstName)" })
+        
+        let completion: String = if returnType.contains("?") {
+            "completion: (@Sendable (\(returnType), Error?) -> Void)? = nil"
+        } else {
+            "completion: (@Sendable (\(returnType)?, Error?) -> Void)? = nil"
+        }
+        
+        let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + [completion]
+        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
         
         let functionBody = """
             Task {
@@ -92,7 +99,7 @@ public struct AddSynchronous: PeerMacro {
         
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable () -> Void)? = nil"]
-        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.secondName ?? $0.firstName): \($0.secondName ?? $0.firstName)" })
+        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
         
         let functionBody = """
             Task {
@@ -113,7 +120,7 @@ public struct AddSynchronous: PeerMacro {
         
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (Error?) -> Void)? = nil"]
-        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.secondName ?? $0.firstName): \($0.secondName ?? $0.firstName)" })
+        let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
         
         let functionBody = """
             Task {
