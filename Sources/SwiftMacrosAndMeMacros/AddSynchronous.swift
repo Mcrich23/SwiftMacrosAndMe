@@ -40,7 +40,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
-        let functionModifiers = syntax.modifiers.description
+        let functionModifiers = syntax.modifiers.trimmedDescription
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (\(returnType)) -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
