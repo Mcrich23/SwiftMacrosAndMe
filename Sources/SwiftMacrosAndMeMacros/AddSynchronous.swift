@@ -51,7 +51,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
@@ -86,7 +86,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
@@ -108,7 +108,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
@@ -133,7 +133,7 @@ public struct AddSynchronous: PeerMacro {
             }
             """
         
-        let function = try DeclSyntax(validating: .init(stringLiteral: "func \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
+        let function = try DeclSyntax(validating: .init(stringLiteral: "\(syntax.funcKeyword.text) \(functionName)(\(functionParameters.joined(separator: ", "))) {\(functionBody)}"))
         
         return [function]
     }
