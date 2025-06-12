@@ -6,7 +6,7 @@ import CompilerPluginSupport
 
 let package = Package(
     name: "SwiftMacrosAndMe",
-    platforms: [.macOS(.v14), .iOS(.v17), .tvOS(.v17), .watchOS(.v9), .macCatalyst(.v14)],
+    platforms: [.macOS(.v14), .iOS(.v17), .tvOS(.v17), .watchOS(.v9)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
