@@ -33,9 +33,7 @@ public struct Codable: MemberMacro, MemberAttributeMacro, ExtensionMacro {
         let fixIt = FixIt.replace(message: fixItMessage, oldNode: oldNode, newNode: newNode)
         context.diagnose(.init(node: Syntax(property), message: diagnosticMessage, fixIt: fixIt))
         
-        return [
-            //.init(stringLiteral: "#warning(\"Immutable property will not be decoded because it is declared with an initial value which cannot be overwritten.\")")
-        ]
+        return []
     }
     
     /// ExtensionMacro Expansion
