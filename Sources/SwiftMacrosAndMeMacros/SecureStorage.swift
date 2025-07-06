@@ -13,8 +13,18 @@ import KeychainSwift
 /// Securely save and read from the Keychain without all of the boiler plate each time.
 public struct SecureStorage: AccessorMacro {
     public static func expansion(of node: AttributeSyntax, providingAccessorsOf declaration: some DeclSyntaxProtocol, in context: some MacroExpansionContext) throws -> [AccessorDeclSyntax] {
-        guard let key = node.arguments?.as(LabeledExprListSyntax.self)?.first?.expression else {
+        guard case .argumentList(let args) = node.arguments,
+              let key = args.first?.expression.trimmedDescription
+        else {
             throw MacroExpansionError.unsupportedDeclaration
+        }
+        
+        let keychain: String
+        
+        if let keychainDescription = args.last?.expression.trimmedDescription, keychainDescription != key {
+            keychain = keychainDescription
+        } else {
+            keychain = "KeychainSwift.shared"
         }
         
         guard let syntax = declaration.as(VariableDeclSyntax.self),
@@ -33,19 +43,19 @@ public struct SecureStorage: AccessorMacro {
         return [
             """
             get {
-                let keychain = KeychainSwift.shared
-                return keychain.\(raw: getFunctionName)(\(key))
+                let keychain: KeychainSwift = \(raw: keychain)
+                return keychain.\(raw: getFunctionName)(\(raw: key))
             }
             """,
             """
             set {
                 let keychain = KeychainSwift.shared
                 guard let newValue else {
-                    keychain.delete(\(key))
+                    keychain.delete(\(raw: key))
                     return
                 }
                 
-                keychain.set(newValue, forKey: \(key), withAccess: nil)
+                keychain.set(newValue, forKey: \(raw: key), withAccess: nil)
             }
             """
         ]

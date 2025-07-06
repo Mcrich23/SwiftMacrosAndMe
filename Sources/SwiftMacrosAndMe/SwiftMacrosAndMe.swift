@@ -2,6 +2,7 @@
 // https://docs.swift.org/swift-book
 
 import Foundation
+import KeychainSwift
 
 /// A macro that produces an unwrapped URL in case of a valid input URL.
 /// For example,
@@ -43,5 +44,5 @@ public macro AddSynchronous() = #externalMacro(module: "SwiftMacrosAndMeMacros",
 
 /// Securely save and read from the Keychain without all of the boiler plate each time.
 @attached(accessor)
-public macro SecureStorage(_ key: String) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
+public macro SecureStorage(_ key: String, keychain: KeychainSwift = .shared) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
 

@@ -19,7 +19,7 @@ struct Bar: Identifiable {
 
 // MARK: SecureStorage Macro
 
-@SecureStorage("test") var secureTest: String?
+@SecureStorage("test", keychain: .shared) var secureTest: String?
 
 
 // MARK: Test AddSynchronous Macro
