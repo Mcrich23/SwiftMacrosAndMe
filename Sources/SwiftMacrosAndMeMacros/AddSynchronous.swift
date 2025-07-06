@@ -40,7 +40,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
-        let functionModifiers = syntax.modifiers.trimmedDescription
+        let functionModifiers = (syntax.modifiers.description + " nonisolated").trimmingCharacters(in: .whitespacesAndNewlines)
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (\(returnType)) -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
@@ -65,7 +65,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
-        let functionModifiers = syntax.modifiers.description
+        let functionModifiers = (syntax.modifiers.description + " nonisolated").trimmingCharacters(in: .whitespacesAndNewlines)
         let functionName = syntax.name.text
         
         let completion: String = if returnType.contains("?") {
@@ -99,7 +99,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
-        let functionModifiers = syntax.modifiers.description
+        let functionModifiers = (syntax.modifiers.description + " nonisolated").trimmingCharacters(in: .whitespacesAndNewlines)
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable () -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
@@ -121,7 +121,7 @@ public struct AddSynchronous: PeerMacro {
             throw MacroExpansionError.unsupportedDeclaration
         }
         
-        let functionModifiers = syntax.modifiers.description
+        let functionModifiers = (syntax.modifiers.description + " nonisolated").trimmingCharacters(in: .whitespacesAndNewlines)
         let functionName = syntax.name.text
         let functionParameters = syntax.signature.parameterClause.parameters.map({ $0.description }) + ["completion: (@Sendable (Error?) -> Void)? = nil"]
         let passthroughParameters = syntax.signature.parameterClause.parameters.map({ "\($0.firstName): \($0.secondName ?? $0.firstName)" })
