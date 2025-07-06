@@ -44,5 +44,5 @@ public macro AddSynchronous() = #externalMacro(module: "SwiftMacrosAndMeMacros",
 
 /// Securely save and read from the Keychain without all of the boiler plate each time.
 @attached(accessor)
-public macro SecureStorage(_ key: String, keychain: KeychainSwift = .shared) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
+public macro SecureStorageMacro(_ key: String, keychain: KeychainSwift = .shared) = #externalMacro(module: "SwiftMacrosAndMeMacros", type: "SecureStorage")
 
